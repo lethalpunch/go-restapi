@@ -2,6 +2,9 @@ package main
 
 import (
 	"errors"
+	"fmt"
+	"livehost"
+	"net"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,6 +23,21 @@ var users = []user{
 }
 
 func main() {
+
+	for i := 1; i < 255; i++ {
+		var livehosts []net.IP
+		livehost, _ := livehost.SideroLiveHost(i)
+		livehosts = append(livehosts, livehost)
+		if len(livehosts) > 0 {
+			fmt.Println("sidero hosts in network", livehosts)
+		} else {
+			fmt.Println("no sidero host in network")
+		}
+		//go sideroliveSideroLiveHost(i)
+		// here need to get the list of all ips in network
+		//time.Sleep(300000)
+	}
+
 	router := gin.Default()
 	router.GET("/users", getUsers)
 	router.GET("/users/:name", getUser)
